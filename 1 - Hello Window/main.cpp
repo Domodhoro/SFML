@@ -5,7 +5,7 @@
 bool close(const auto&);
 
 int main() {
-    sf::Window window(sf::VideoMode(500, 300), "SFML Window");
+    sf::RenderWindow window(sf::VideoMode(500, 300), "SFML Window");
     sf::Event event;
 
     window.setPosition(sf::Vector2i(100, 100));
