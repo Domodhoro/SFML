@@ -1,11 +1,32 @@
 #include <iostream>
+#include <memory>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 bool close(const auto&);
 
-sf::Sprite loadTexture(const std::string);
+class Cat {
+    sf::Texture texture;
+
+public:
+    Cat() {
+        if (!texture.loadFromFile("cat.png")) {
+            throw std::runtime_error("Falha ao carregar textura.");
+        }
+
+        texture.setSmooth(true);
+    }
+
+    void draw(sf::RenderWindow& window, sf::Vector2f position, sf::Vector2f scale) const {
+        sf::Sprite cat(texture);
+
+        cat.setPosition(position);
+        cat.setScale(scale);
+
+        window.draw(cat);
+    }
+};
 
 int main() {
     try {
@@ -15,10 +36,7 @@ int main() {
         window.setPosition(sf::Vector2i(100, 100));
         window.setFramerateLimit(60u);
 
-        sf::Sprite cat(loadTexture("cat.png"));
-
-        cat.setPosition(sf::Vector2f(50.0f, 50.f));
-        cat.setScale(sf::Vector2f(1.5f, 1.5));
+        auto cat = std::make_unique<Cat>();
 
         while (window.isOpen()) {
             while (window.pollEvent(event)) {
@@ -28,7 +46,9 @@ int main() {
             }
 
             window.clear();
-            window.draw(cat);
+            
+            cat->draw(window, sf::Vector2f(50.0f, 50.0f), sf::Vector2f(1.5f, 1.5f));
+            
             window.display();
         }
 
@@ -42,16 +62,4 @@ int main() {
 
 bool close(const auto& event) {
     return(event.key.code == sf::Keyboard::Escape);
-}
-
-sf::Sprite loadTexture(const std::string texturePath) {
-    static sf::Texture texture;
-
-    if (!texture.loadFromFile(texturePath)) {
-        throw std::runtime_error("Falha ao carregar textura.");
-    }
-
-    texture.setSmooth(true);
-
-    return sf::Sprite(texture);
 }
