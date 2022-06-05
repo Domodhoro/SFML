@@ -5,11 +5,11 @@
 bool close(const auto&);
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(500, 300), "SFML Window");
+    sf::RenderWindow window(sf::VideoMode(500u, 300u), "SFML Window");
     sf::Event event;
 
     window.setPosition(sf::Vector2i(100, 100));
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(60u);
 
     while (window.isOpen()) {
         while (window.pollEvent(event)) {
