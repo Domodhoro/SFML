@@ -20,8 +20,7 @@ using sf::Vector2f;
 using sf::Sprite;
 using sf::Texture;
 
-template<typename T>
-bool keyboardCallback(const T& event) {
+bool keyboardCallback(const auto& event) {
     return (event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::Enter);
 }
 
